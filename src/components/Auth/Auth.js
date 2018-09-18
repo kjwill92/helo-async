@@ -46,6 +46,13 @@ class Auth extends Component {
 
         }
     }
+    
+    login = () => {
+        let {REACT_APP_DOMAIN, REACT_APP_CLIENT_ID} = process.env;
+        let url = `${encodeURIComponent(window.location.origin)}/auth/callback`
+
+        window.location = `http://${REACT_APP_DOMAIN}/authorize?client_id=${REACT_APP_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${url}&response_type=code`
+    }
 
     render(){
         return (
@@ -53,10 +60,10 @@ class Auth extends Component {
                 <div>
                     <img src={logo} alt=""/>
                     <h3>Helo</h3>
-                    <Button>Login / Register</Button>
+                    <Button onClick={this.login}>Login / Register</Button>
                 </div>
             </Body>
         )
     }
 }
-export default Auth
+export default Auth;

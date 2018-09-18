@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import Nav from './../Nav/Nav';
 import styled from 'styled-components';
-
+import axios from 'axios';
+import swal from 'sweetalert2';
 
 const Page = styled.div`
     background: #f2f2f2;
@@ -22,6 +23,18 @@ const Container = styled.div`
     height: 135px;
     border: 1px black solid;
     margin-bottom: 30px;
+    display: flex;
+    > img{
+        border: 2px groove orange;
+        width: 130px;
+        height:130px;
+        margin-right: 10px;
+    }
+    > div{
+        > h3 {
+            text-align: left;
+        }
+    }
 `
 const Container2 = styled.div`
     border-radius: 2px;
@@ -31,17 +44,6 @@ const Container2 = styled.div`
     height: 350px;
     border: 1px black solid;
     display: flex;
-    /* > h5 {
-        margin-bottom: 0;
-        margin-top: 4px;
-        font-weight: normal;
-    }
-    > select {
-        width: 130px;
-    }
-    > input {
-        border-color: orange;
-    } */
 `
 const Box1 = styled.div`
     width: 50%;
@@ -85,15 +87,122 @@ const Button2 = styled.button`
     border: solid 1px #ccc3c3;
     padding: 5px 15px;
 `
+const Box = styled.div`
+
+`
 
 class Profile extends Component {
     constructor(){
         super()
         this.state = {
+            info: [],
+            pic: '',
             firstName: '',
-            lastName: ''
+            lastName: '',
+            gender: '',
+            hairColor: '',
+            eyeColor: '',
+            hobby: '',
+            birthday: '',
+            birthMonth: '',
+            birthYear: ''
         }
     }
+
+    componentDidMount(){
+        axios.get('/api/dashUsers').then(res => {
+            this.setState({
+                info: res.data[0]
+            })
+        })
+    }
+
+    handleFirst = (e) => {
+        this.setState({
+            firstName: e.target.value
+        })
+    }
+    handleLast = (e) => {
+        this.setState({
+            lastName: e.target.value
+        })
+    }
+    handleGender = (e) => {
+        this.setState({
+            gender: e.target.value
+        })
+    }
+    handleHairCo = (e) => {
+        this.setState({
+            hairColor: e.target.value
+        })
+    }
+    handleEyeCo = (e) => {
+        this.setState({
+            eyeColor: e.target.value
+        })
+    }
+    handleHobby= (e) => {
+        this.setState({
+            hobby: e.target.value
+        })
+    }
+    handleBirthday = (e) => {
+        this.setState({
+            birthday: e.target.value
+        })
+    }
+    handleBirthMo = (e) => {
+        this.setState({
+            birthMonth: e.target.value
+        })
+    }
+    handleBirthYear = (e) => {
+        this.setState({
+            birthYear: e.target.value
+        })
+    }
+
+    updateProfile = () => {
+        const {firstName, lastName, gender, hairColor, eyeColor, hobby, birthday, birthMonth, birthYear} = this.state;
+        swal({
+            title: 'Birthday Fields Required',
+            text: "You won't be able to update with out it!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, update it!',
+            cancelButtonText: 'Let me go fix that'
+          }).then((result) => {
+            if (result.value) {
+                axios.patch('/api/user/patch', {firstName, lastName, gender, hairColor, eyeColor, hobby, birthday, birthMonth, birthYear}).then(res => {  
+                    // this.props.history.push('/')
+                })
+              swal(
+                'Updated!',
+                'Your profile has been updated',
+                'success'
+              )
+            }
+          })
+        
+    }
+    handleCancel = () => {
+        this.setState({
+            pic: '',
+            firstName: '',
+            lastName: '',
+            gender: '',
+            hairColor: '',
+            eyeColor: '',
+            hobby: '',
+            birthday: '',
+            birthMonth: '',
+            birthYear: ''
+        })
+    }
+
 
     render(){
         return (
@@ -102,89 +211,101 @@ class Profile extends Component {
                 
                 <Body>
                     <Container>
-                        Name
+                        <img src={this.state.info.image} alt=""/>
+                        <div>
+                            <h3>{this.state.info.first_name}</h3>
+                            <h3>{this.state.info.last_name}</h3>
+                        </div>
                         <br/>
-                        <Button>Update</Button>
-                        <Button2>Cancel</Button2>
-                    </Container>
+                        <Box>
+                            <Button onClick={this.updateProfile}>Update</Button> 
+                            <Button2 onClick={this.handleCancel}>Cancel</Button2>
+                        </Box>
+                    </Container>2
                     <Container2>
                         <Box1>
                             <h5>First Name</h5>
-                            <input type="text"/>
+                            <input type="text" onChange={this.handleFirst} value={this.state.firstName}/>
                             <h5>Last Name</h5>
-                            <input type="text"/>
+                            <input type="text" onChange={this.handleLast} value={this.state.lastName}/>
                             <h5>Gender</h5>
-                                <select name="" id="">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="dont">Dont assume my Gender</option>
+                                <select name="" id="" onChange={this.handleGender} value={this.state.gender}>
+                                    <option value="select">select...</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Dont">Dont assume my Gender</option>
                                 </select>
                             <h5>Hair Color</h5>
-                                <select name="" id="">
-                                    <option value="brown">Brown</option>
-                                    <option value="black">Black</option>
-                                    <option value="red">Red</option>
-                                    <option value="blonde">Blonde</option>
-                                    <option value="gray">Gray</option>
-                                    <option value="white">White</option>
+                                <select name="" id="" onChange={this.handleHairCo} value={this.state.hairColor}>
+                                    <option value="select">select...</option>
+                                    <option value="Brown">Brown</option>
+                                    <option value="Black">Black</option>
+                                    <option value="Red">Red</option>
+                                    <option value="Blonde">Blonde</option>
+                                    <option value="Gray">Gray</option>
+                                    <option value="White">White</option>
                                 </select>
                             <h5>Eye Color</h5>
-                                <select name="" id="">
-                                    <option value="green">Green</option>
-                                    <option value="brown">Brown</option>
-                                    <option value="blue">Blue</option>
-                                    <option value="hazel">Hazel</option>
+                                <select name="" id="" onChange={this.handleEyeCo} value={this.state.eyeColor}>
+                                    <option value="select">select...</option>
+                                    <option value="Green">Green</option>
+                                    <option value="Brown">Brown</option>
+                                    <option value="Blue">Blue</option>
+                                    <option value="Hazel">Hazel</option>
                                 </select>
                         </Box1>
                         <Box2>
                             <h5>Hobby</h5>
-                                <select name="" id="">
-                                    <option value="hiking">Hiking</option>
-                                    <option value="reading">Reading</option>
-                                    <option value="swimming">Swimming</option>
-                                    <option value="stealing">Stealing Stuff</option>
-                                    <option value="netflixNchill">Netflix n' Chill</option>
-                                    <option value="painting">Painting</option>
-                                    <option value="buildingStuff">Building Things</option>
-                                    <option value="shopping">Shopping</option>
-                                    <option value="games">Video Games</option>
+                                <select name="" id="" onChange={this.handleHobby} value={this.state.hobby}>
+                                    <option value="select">select...</option>
+                                    <option value="Hiking">Hiking</option>
+                                    <option value="Reading">Reading</option>
+                                    <option value="Swimming">Swimming</option>
+                                    <option value="Stealing">Stealing Stuff</option>
+                                    <option value="Netflix n' Chill">Netflix n' Chill</option>
+                                    <option value="Painting">Painting</option>
+                                    <option value="BuildingStuff">Building Things</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Games">Video Games</option>
                                 </select>
                             <h5>Birthday</h5>
-                                <select name="" id="">
-                                    <option value="">01</option>
-                                    <option value="">02</option>
-                                    <option value="">03</option>
-                                    <option value="">04</option>
-                                    <option value="">05</option>
-                                    <option value="">06</option>
-                                    <option value="">07</option>
-                                    <option value="">08</option>
-                                    <option value="">09</option>
-                                    <option value="">10</option>
-                                    <option value="">11</option>
-                                    <option value="">12</option>
-                                    <option value="">13</option>
-                                    <option value="">14</option>
-                                    <option value="">15</option>
-                                    <option value="">16</option>
-                                    <option value="">17</option>
-                                    <option value="">18</option>
-                                    <option value="">19</option>
-                                    <option value="">20</option>
-                                    <option value="">21</option>
-                                    <option value="">22</option>
-                                    <option value="">23</option>
-                                    <option value="">24</option>
-                                    <option value="">25</option>
-                                    <option value="">26</option>
-                                    <option value="">27</option>
-                                    <option value="">28</option>
-                                    <option value="">29</option>
-                                    <option value="">30</option>
-                                    <option value="">31</option>
+                                <select name="" id="" onChange={this.handleBirthday} value={this.state.birthday}>
+                                    <option value="select">select...</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>
                                 </select>
                             <h5>Birth Month</h5>
-                                <select name="" id="">
+                                <select name="" id="" onChange={this.handleBirthMo} value={this.state.birthMonth}>
+                                    <option value="select">select...</option>
                                     <option value="jan">January</option>
                                     <option value="feb">February</option>
                                     <option value="march">March</option>
@@ -199,38 +320,39 @@ class Profile extends Component {
                                     <option value="dec">December</option>
                                 </select>
                             <h5>Birth Year</h5>
-                                <select name="" id="">
-                                    <option value="">2000</option>
-                                    <option value="">1999</option>
-                                    <option value="">1998</option>
-                                    <option value="">1997</option>
-                                    <option value="">1996</option>
-                                    <option value="">1995</option>
-                                    <option value="">1994</option>
-                                    <option value="">1993</option>
-                                    <option value="">1992</option>
-                                    <option value="">1991</option>
-                                    <option value="">1990</option>
-                                    <option value="">1989</option>
-                                    <option value="">1988</option>
-                                    <option value="">1987</option>
-                                    <option value="">1986</option>
-                                    <option value="">1985</option>
-                                    <option value="">1984</option>
-                                    <option value="">1983</option>
-                                    <option value="">1982</option>
-                                    <option value="">1981</option>
-                                    <option value="">1980</option>
-                                    <option value="">1979</option>
-                                    <option value="">1978</option>
-                                    <option value="">1977</option>
-                                    <option value="">1976</option>
-                                    <option value="">1975</option>
-                                    <option value="">1974</option>
-                                    <option value="">1973</option>
-                                    <option value="">1972</option>
-                                    <option value="">1971</option>
-                                    <option value="">1970</option>
+                                <select name="" id="" onChange={this.handleBirthYear} value={this.state.handleBirthYear}>
+                                    <option value="select">select...</option>
+                                    <option value="2000">2000</option>
+                                    <option value="1999">1999</option>
+                                    <option value="1998">1998</option>
+                                    <option value="1997">1997</option>
+                                    <option value="1996">1996</option>
+                                    <option value="1995">1995</option>
+                                    <option value="1994">1994</option>
+                                    <option value="1993">1993</option>
+                                    <option value="1992">1992</option>
+                                    <option value="1991">1991</option>
+                                    <option value="1990">1990</option>
+                                    <option value="1989">1989</option>
+                                    <option value="1988">1988</option>
+                                    <option value="1987">1987</option>
+                                    <option value="1986">1986</option>
+                                    <option value="1985">1985</option>
+                                    <option value="1984">1984</option>
+                                    <option value="1983">1983</option>
+                                    <option value="1982">1982</option>
+                                    <option value="1981">1981</option>
+                                    <option value="1980">1980</option>
+                                    <option value="1979">1979</option>
+                                    <option value="1978">1978</option>
+                                    <option value="1977">1977</option>
+                                    <option value="1976">1976</option>
+                                    <option value="1975">1975</option>
+                                    <option value="1974">1974</option>
+                                    <option value="1973">1973</option>
+                                    <option value="1972">1972</option>
+                                    <option value="1971">1971</option>
+                                    <option value="1970">1970</option>
                                 </select>
                         </Box2>
                         

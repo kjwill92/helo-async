@@ -4,6 +4,7 @@ import home from './home.png';
 import search from './search.png';
 import {withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 const Body = styled.div`
     background-image: linear-gradient(97deg, #ff7a6e, #ff9770);
@@ -52,6 +53,13 @@ class Nav extends Component {
 
         }
     }
+    
+    logout = () => {
+        axios.post('/api/auth/logout').then(res => {
+            console.log('tis working')
+            this.props.history.push('/auth')
+        })
+    }
 
     render(){
         console.log(this.props)
@@ -79,7 +87,7 @@ class Nav extends Component {
                     <h4>{name}</h4>
                 </Dash>
                 <Logoutt>
-                    <h4>Logout</h4>
+                    <h4 onClick={this.logout}>Logout</h4>
                 </Logoutt>
             </Body>
         )

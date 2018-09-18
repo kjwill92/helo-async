@@ -2,7 +2,14 @@
   "name": "helo-async",
   "version": "0.1.0",
   "main": "server/server.js",
-  "proxy": "http://localhost:3076",
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:3076"
+    },
+    "/auth": {
+      "target": "http://localhost:3076"
+    }
+  },
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
@@ -17,7 +24,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
     "redux": "^4.0.0",
-    "styled-components": "^3.4.5"
+    "styled-components": "^3.4.5",
+    "sweetalert2": "^7.26.29"
   },
   "scripts": {
     "start": "react-scripts start",

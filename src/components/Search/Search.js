@@ -20,6 +20,11 @@ const Container = styled.div`
     border-radius: 2px;
     background-color: #ffffff;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.2);
+    > div{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;  
+    }
 `
 const Friend = styled.div`
     width: 330px;
@@ -74,6 +79,7 @@ class Search extends Component {
                 <Nav/>
                 <Body>
                     <Container>
+                        <br/>
                         <select name="" id="">
                             <option value="firstName">First Name</option>
                             <option value="lastName">Last Name</option>
@@ -89,7 +95,9 @@ class Search extends Component {
                         <button>Search</button>
                         <button>Reset</button>
                         <br/>
-                        {friendsDisplay}
+                        <div>
+                            {friendsDisplay}
+                        </div>
                     </Container>
                 </Body>
             </Page>
