@@ -81,15 +81,16 @@ class Search extends Component {
                     <Container>
                         <br/>
                         <select name="" id="">
+                            <option value="Select">Select...</option>
                             <option value="firstName">First Name</option>
                             <option value="lastName">Last Name</option>
-                            <option value="gender">Gender</option>
+                            {/* <option value="gender">Gender</option>
                             <option value="hairColor">Hair Color</option>
                             <option value="eyeColor">Eye Color</option>
                             <option value="hobby">Hobby</option>
                             <option value="birthday">Birthday</option>
                             <option value="birthMonth">Birth Month</option>
-                            <option value="birthYear">Birth Year</option>
+                            <option value="birthYear">Birth Year</option> */}
                         </select>
                         <input type="text"/>
                         <button>Search</button>

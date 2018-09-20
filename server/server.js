@@ -86,7 +86,7 @@ app.get('/api/dashUsers', controller.getUsers)
 app.get('/api/user/search')
 //RECOMMENDED
 app.get('/api/recommended', controller.getEveryone)
-app.post('/api/recommended/add')
+app.post('/api/recommended/add', controller.addRecFriend)
 
 
 const port = process.env.SERVER_PORT || 3076;

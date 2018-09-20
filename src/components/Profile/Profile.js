@@ -221,7 +221,7 @@ class Profile extends Component {
                             <Button onClick={this.updateProfile}>Update</Button> 
                             <Button2 onClick={this.handleCancel}>Cancel</Button2>
                         </Box>
-                    </Container>2
+                    </Container>
                     <Container2>
                         <Box1>
                             <h5>First Name</h5>
