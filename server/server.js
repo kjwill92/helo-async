@@ -76,9 +76,10 @@ app.get('/api/user-data', (req, res) => {
 // app.get('/api/auth/authenticated')
 app.post('/api/auth/logout', controller.logout)
 //FREIND
-app.get('/api/friend/list', controller.searchFriends)
-app.post('/api/friend/add')
-app.post('/api/friend/remove')
+app.get('/api/friend/list/:page', controller.searchFriends) // will switch for the limit and offset
+app.post('/api/friend/add', controller.addFriend)
+app.post('/api/friend/remove', controller.removeFriend)
+app.get('/api/count/users', controller.countUsers) // counts the users
 //USER
 app.patch('/api/user/patch/:id')
 app.patch('/api/user/patch', controller.updateUser)

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Nav from './../Nav/Nav';
 import styled from 'styled-components';
 import axios from 'axios';
+import 'rc-pagination/assets/index.css'
+import Pagination from 'rc-pagination'
 
 const Page = styled.div`
     background: #f2f2f2;
@@ -40,21 +42,71 @@ const Button3 = styled.div`
     padding: 10px 15px;
     color: white;
 `
+const Button2 = styled.div`
+    border-radius: 1px;
+    background-image: radial-gradient(circle at 50% -46%, #737373, #403d39);
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.2);
+    color: white;
+    padding: 8px 8px;
+`
+const Button4 = styled.div`
+    border-radius: 1px;
+    background-image: radial-gradient(circle at 50% -46%, #737373, #403d39);
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.2);
+    color: white;
+    width: 70px;
+    padding: 8px 20px;
+`
 
 class Search extends Component {
     constructor(){
         super()
         this.state = {
-            friends: []
+            friends: [],
+            current: 1,
+            count: 0
         }
     }
+    
     componentDidMount = () => {
-        axios.get('/api/friend/list').then(res => {
+        axios.get('/api/friend/list/0').then(res => {
+            this.setState({
+                friends: res.data
+            })
+        })
+        axios.get('/api/count/users').then(res => {
+            console.log(555,res.data)
+            this.setState({
+                count: Number(res.data[0].count)
+            })
+        })
+    }
+    addFriend(friendID){
+        axios.post('/api/friend/add', {friendID}).then(res => {
             this.setState({
                 friends: res.data
             })
         })
     }
+    removeFriend(friendID){
+        axios.post('/api/friend/remove', {friendID}).then(res => {
+            this.setState({
+                friends: res.data
+            })
+        })
+    }
+    pageChange = (page) => {
+        let offset = page * 8 - 8
+        axios.get( `/api/friend/list/${offset}`).then(res => {
+            this.setState({
+                friends: res.data
+            })
+        })
+        this.setState({
+          current: page
+        })
+    }
+
 
     render(){
         let friendsDisplay = this.state.friends.map((el, i) => {
@@ -68,9 +120,10 @@ class Search extends Component {
                         <h4>{el.last_name}</h4>
                     </div>
                     <div>
-                        <Button3>Add Friend</Button3> 
+                        { el.friend ? 
+                        <Button2 onClick={()=> this.removeFriend(el.id)}>Remove Friend</Button2> :
+                        <Button3 onClick={()=> this.addFriend(el.id)}>Add Friend</Button3> }
                     </div>
-                    {/* <button>Remove Friend</button> */}
                 </Friend>
             )
         })
@@ -99,8 +152,10 @@ class Search extends Component {
                         <div>
                             {friendsDisplay}
                         </div>
+                        <Pagination pageSize={8} onChange={this.pageChange} current={this.state.current} total={this.state.count} />
                     </Container>
                 </Body>
+                
             </Page>
         )
     }

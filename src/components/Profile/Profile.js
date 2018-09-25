@@ -231,42 +231,42 @@ class Profile extends Component {
                             <h5>Gender</h5>
                                 <select name="" id="" onChange={this.handleGender} value={this.state.gender}>
                                     <option value="select">select...</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Dont">Dont assume my Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="dont">Dont assume my Gender</option>
                                 </select>
                             <h5>Hair Color</h5>
                                 <select name="" id="" onChange={this.handleHairCo} value={this.state.hairColor}>
                                     <option value="select">select...</option>
-                                    <option value="Brown">Brown</option>
-                                    <option value="Black">Black</option>
-                                    <option value="Red">Red</option>
-                                    <option value="Blonde">Blonde</option>
-                                    <option value="Gray">Gray</option>
-                                    <option value="White">White</option>
+                                    <option value="brown">Brown</option>
+                                    <option value="black">Black</option>
+                                    <option value="red">Red</option>
+                                    <option value="blonde">Blonde</option>
+                                    <option value="gray">Gray</option>
+                                    <option value="white">White</option>
                                 </select>
                             <h5>Eye Color</h5>
                                 <select name="" id="" onChange={this.handleEyeCo} value={this.state.eyeColor}>
                                     <option value="select">select...</option>
-                                    <option value="Green">Green</option>
-                                    <option value="Brown">Brown</option>
-                                    <option value="Blue">Blue</option>
-                                    <option value="Hazel">Hazel</option>
+                                    <option value="green">Green</option>
+                                    <option value="brown">Brown</option>
+                                    <option value="blue">Blue</option>
+                                    <option value="hazel">Hazel</option>
                                 </select>
                         </Box1>
                         <Box2>
                             <h5>Hobby</h5>
                                 <select name="" id="" onChange={this.handleHobby} value={this.state.hobby}>
                                     <option value="select">select...</option>
-                                    <option value="Hiking">Hiking</option>
-                                    <option value="Reading">Reading</option>
-                                    <option value="Swimming">Swimming</option>
-                                    <option value="Stealing">Stealing Stuff</option>
-                                    <option value="Netflix n' Chill">Netflix n' Chill</option>
-                                    <option value="Painting">Painting</option>
-                                    <option value="BuildingStuff">Building Things</option>
-                                    <option value="Shopping">Shopping</option>
-                                    <option value="Games">Video Games</option>
+                                    <option value="hiking">Hiking</option>
+                                    <option value="reading">Reading</option>
+                                    <option value="swimming">Swimming</option>
+                                    <option value="stealing stuff">Stealing Stuff</option>
+                                    <option value="netflix&chill">Netflix n' Chill</option>
+                                    <option value="painting">Painting</option>
+                                    <option value="building things">Building Things</option>
+                                    <option value="shopping">Shopping</option>
+                                    <option value="video games">Video Games</option>
                                 </select>
                             <h5>Birthday</h5>
                                 <select name="" id="" onChange={this.handleBirthday} value={this.state.birthday}>
@@ -306,18 +306,18 @@ class Profile extends Component {
                             <h5>Birth Month</h5>
                                 <select name="" id="" onChange={this.handleBirthMo} value={this.state.birthMonth}>
                                     <option value="select">select...</option>
-                                    <option value="jan">January</option>
-                                    <option value="feb">February</option>
+                                    <option value="january">January</option>
+                                    <option value="february">February</option>
                                     <option value="march">March</option>
                                     <option value="april">April</option>
                                     <option value="may">May</option>
                                     <option value="june">June</option>
                                     <option value="july">July</option>
                                     <option value="august">August</option>
-                                    <option value="sept">September</option>
-                                    <option value="oct">October</option>
-                                    <option value="nov">November</option>
-                                    <option value="dec">December</option>
+                                    <option value="september">September</option>
+                                    <option value="october">October</option>
+                                    <option value="november">November</option>
+                                    <option value="december">December</option>
                                 </select>
                             <h5>Birth Year</h5>
                                 <select name="" id="" onChange={this.handleBirthYear} value={this.state.handleBirthYear}>
