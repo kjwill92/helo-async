@@ -64,7 +64,9 @@ class Search extends Component {
         this.state = {
             friends: [],
             current: 1,
-            count: 0
+            count: 0,
+            input: '',
+            select: ''
         }
     }
     
@@ -82,22 +84,50 @@ class Search extends Component {
         })
     }
     addFriend(friendID){
-        axios.post('/api/friend/add', {friendID}).then(res => {
-            this.setState({
-                friends: res.data
-            })
+        axios.post(`/api/friend/add`, {friendID}).then(res => {
+            this.pageChange(this.state.current)
         })
     }
     removeFriend(friendID){
-        axios.post('/api/friend/remove', {friendID}).then(res => {
+        axios.post(`/api/friend/remove`, {friendID}).then(res => {
+            this.pageChange(this.state.current)            
+        })
+    }
+    handleInput = (e) => {
+        this.setState({
+            input: e.target.value
+        })
+    }
+    handleSelect = (e) => {
+        this.setState({
+            select: e.target.value
+        })
+    }
+    handleClick = () => {
+        console.log('search')
+        axios.get(`/api/friend/list/0?name=${this.state.select}&input=${this.state.input}`).then(res => {
             this.setState({
                 friends: res.data
             })
         })
+        axios.get(`/api/count/users?name=${this.state.select}&input=${this.state.input}`).then(res => {
+            this.setState({
+                count: Number(res.data[0].count)
+            })
+        })
     }
+    handleReset = () => {
+        this.setState({
+            input: '',
+            select: ''
+        }, () => {
+            this.handleClick()
+        })
+    }
+
     pageChange = (page) => {
         let offset = page * 8 - 8
-        axios.get( `/api/friend/list/${offset}`).then(res => {
+        axios.get( `/api/friend/list/${offset}?name=${this.state.select}&input=${this.state.input}`).then(res => {
             this.setState({
                 friends: res.data
             })
@@ -133,7 +163,7 @@ class Search extends Component {
                 <Body>
                     <Container>
                         <br/>
-                        <select name="" id="">
+                        <select name="" id="" value={this.state.select} onChange={this.handleSelect}>
                             <option value="Select">Select...</option>
                             <option value="firstName">First Name</option>
                             <option value="lastName">Last Name</option>
@@ -145,9 +175,9 @@ class Search extends Component {
                             <option value="birthMonth">Birth Month</option>
                             <option value="birthYear">Birth Year</option> */}
                         </select>
-                        <input type="text"/>
-                        <button>Search</button>
-                        <button>Reset</button>
+                        <input type="text" value={this.state.input} onChange={this.handleInput}/>
+                        <button onClick={this.handleClick}>Search</button>
+                        <button onClick={this.handleReset}>Reset</button>
                         <br/>
                         <div>
                             {friendsDisplay}

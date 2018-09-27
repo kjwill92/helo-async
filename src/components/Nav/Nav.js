@@ -62,7 +62,6 @@ class Nav extends Component {
     }
 
     render(){
-        console.log(this.props)
         let name = ""
         if(this.props.location.pathname === "/") {
             name = "Dashboard"

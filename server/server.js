@@ -81,10 +81,9 @@ app.post('/api/friend/add', controller.addFriend)
 app.post('/api/friend/remove', controller.removeFriend)
 app.get('/api/count/users', controller.countUsers) // counts the users
 //USER
-app.patch('/api/user/patch/:id')
 app.patch('/api/user/patch', controller.updateUser)
 app.get('/api/dashUsers', controller.getUsers)
-app.get('/api/user/search')
+
 //RECOMMENDED
 app.get('/api/recommended', controller.getEveryone)
 app.post('/api/recommended/add', controller.addRecFriend)

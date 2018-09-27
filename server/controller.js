@@ -1,11 +1,20 @@
 module.exports = {
-    searchFriends: (req, res) => {
+    searchFriends: async (req, res) => {
         const db = req.app.get('db');
         const page = req.params.page;
         const info = req.session.user.id;
-        db.getAllUsers([info, page]).then(allUsers => {
+        let users = [];
+        const {name, input} = req.query;
+        console.log(req.query)
+        if(name === 'firstName'){
+            users = await db.filtered_first([input, info, page])
+        } else if(name === 'lastName'){
+            users = await db.filtered_last([input, info, page])
+        } else {
+            users = await db.getAllUsers([info, page])
+        }
             db.find_friends_id([info]).then(friends => {
-                let todos = allUsers.map((user, i) => {
+                let todos = users.map((user, i) => {
                     friends.forEach((friend, i) => {
                         if(user.id === friend.friends_id){
                             user.friend = true
@@ -14,8 +23,7 @@ module.exports = {
                     return user
                 })
                 res.send(todos)
-            })
-        });
+            });
     },
     getUsers: (req, res) => {
         const db = req.app.get('db');
@@ -53,17 +61,7 @@ module.exports = {
         const info = req.session.user.id;
         const {friendID} = req.body;
         db.add_searchFriend([info, friendID]).then(allUsers => {
-            db.find_friends_id([info]).then(friends => {
-                let todos = allUsers.map((user, i) => {
-                    friends.forEach((friend, i) => {
-                        if(user.id === friend.friends_id){
-                            user.friend = true
-                        }
-                    })
-                    return user
-                })
-                res.send(todos)
-            })
+            res.sendStatus(200)
         })
     },
     removeFriend: (req, res) => {
@@ -71,23 +69,21 @@ module.exports = {
         const info = req.session.user.id;
         const {friendID} = req.body;
         db.remove_friend([info, friendID]).then(allUsers => {
-            db.find_friends_id([info]).then(friends => {
-                let todos = allUsers.map((user, i) => {
-                    friends.forEach((friend, i) => {
-                        if(user.id === friend.friends_id){
-                            user.friend = true
-                        }
-                    })
-                    return user
-                })
-                res.send(todos)
-            })
+            res.sendStatus(200)
         })
     },
     countUsers: (req, res) => {
         const db = req.app.get('db');
         const info = req.session.user.id;
-        db.count_users([info]).then(count => res.send(count))
+        const {name, input} = req.query;
+        if(name === 'firstName'){
+            db.count_first([info, input]).then(count => res.send(count))
+        } else if(name === 'lastName'){
+            db.count_last([info, input]).then(count => res.send(count))
+        } else {
+            db.count_users([info]).then(count => res.send(count))
+        }
     }
+    
 
 }

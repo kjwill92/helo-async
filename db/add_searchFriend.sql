@@ -4,5 +4,3 @@ values (
     $1, $2
 );
 
-select * from sim3_users
-where id != $1

@@ -163,6 +163,7 @@ class Dashboard extends Component {
     }
 
     render(){
+        console.log(6666, this.state.everybody[0])
         const recFriends = this.state.everybody.filter((el) => {
             if(el[this.state.select] === this.state.userInfo[this.state.select]){
                 return true
@@ -222,10 +223,10 @@ class Dashboard extends Component {
                                 <option value="birth_year">Birth Year</option>
                             </select>
                         </RecFriend>
-                        <div>
-                            {recFriends}
-                        </div>
                         
+                        <div>
+                            {!recFriends[0] ? <p>No recommendations</p> : recFriends}
+                        </div>
                     </Middle2>
                 </Body>
             </Page>
@@ -234,5 +235,3 @@ class Dashboard extends Component {
     }
 }
 export default Dashboard
-
-
